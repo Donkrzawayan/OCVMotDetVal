@@ -10,18 +10,21 @@ class App(tk.Tk):
 
         self.title('OCMotDetVal')
 
-        self._set_frame(0, 0)
-        self._set_frame(1, 0)
-        self._set_frame(1, 1)
-        self._set_frame(1, 2)
+        self._set_frame('Original Video', 0, 0)
+        self._set_frame('KNN', 1, 0)
+        self._set_frame('MOG', 1, 1)
+        self._set_frame('MOG2', 1, 2)
 
         self.upload_button = tk.Button(self, text='Open',
                                        command=lambda: self._upload_action())
         self.upload_button.grid(row=0, column=2)
 
-    def _set_frame(self, row, column):
+    def _set_frame(self, text, row, column):
+        row *= 2
         self.frame = tk.Frame(self, width=350, height=250, background='darkgrey')
         self.frame.grid(row=row, column=column)
+        self.label = tk.Label(self, text=text)
+        self.label.grid(row=row+1, column=column)
 
     def _upload_action(self, event=None):
         self.filename = filedialog.askopenfilename()
