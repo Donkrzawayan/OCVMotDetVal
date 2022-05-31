@@ -15,40 +15,26 @@ class App(tk.Tk):
         self._set_frame('MOG', 1, 1)
         self._set_frame('MOG2', 1, 2)
 
-        self.upload_button = tk.Button(self, text='Open',
-                                       command=lambda: self._upload_action())
-        self.upload_button.grid(row=0, column=2)
+        self.filename = filedialog.askopenfilename()
 
-        # create labels for videos
-        self.upload_label = tk.Label(self)
-        self.knn_label = tk.Label(self)
-        self.mog_label = tk.Label(self)
-        self.mog2_label = tk.Label(self)
+        if not self.filename:
+            self.destroy()
+            return
+
+        self._play_video(self.filename, 0, 0)
+        self._play_video(self.filename, 1, 0)
+        self._play_video(self.filename, 1, 1)
+        self._play_video(self.filename, 1, 2)
 
     def _set_frame(self, text, row, column):
         row *= 2
+
         self.frame = tk.Frame(self, width=350, height=250, background='darkgrey')
         self.frame.grid(row=row, column=column)
         self.label = tk.Label(self, text=text)
         self.label.grid(row=row+1, column=column)
 
-    def _upload_action(self, event=None):
-        self.filename = filedialog.askopenfilename()
-
-        if self.filename == '':
-            return
-
-        self._play_video(self.filename, self.upload_label, 0, 0)
-        self._play_video(self.filename, self.knn_label, 1, 0)
-        self._play_video(self.filename, self.mog_label, 1, 1)
-        self._play_video(self.filename, self.mog2_label, 1, 2)
-
-    def _play_video(self, filename, label, row, column):
-        try:
-            label.destroy()
-        except AttributeError:
-            pass
-
+    def _play_video(self, filename, row, column):
         row *= 2
 
         label = tk.Label(self)
