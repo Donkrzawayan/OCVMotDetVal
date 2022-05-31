@@ -3,12 +3,18 @@ from tkinter import filedialog
 
 from tkvideo import tkvideo
 
+from motion_detection import MotionDetector
+
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
         self.title('OCMotDetVal')
+
+        self.mog_file = "mog.avi"
+        self.mog2_file = "mog2.mp4"
+        self.knn_file = "knn.mp4"
 
         self._set_frame('Original Video', 0, 0)
         self._set_frame('KNN', 1, 0)
@@ -21,10 +27,18 @@ class App(tk.Tk):
             self.destroy()
             return
 
+        motion_detector = MotionDetector()
+
+        motion_detector.detect(self.filename, self.knn_file, detector="KNN")
+        #motion_detector.detect(self.filename, self.mog_file, detector="MOG")
+        motion_detector.detect(self.filename, self.mog2_file, detector="MOG2")
+
         self._play_video(self.filename, 0, 0)
-        self._play_video(self.filename, 1, 0)
-        self._play_video(self.filename, 1, 1)
-        self._play_video(self.filename, 1, 2)
+        self._play_video(self.knn_file, 1, 0)
+
+        #Dla MOG w pycharmie nie działa
+        #self._play_video(self.mog_file, 1, 1)
+        self._play_video(self.mog2_file, 1, 2)
 
     def _set_frame(self, text, row, column):
         row *= 2
