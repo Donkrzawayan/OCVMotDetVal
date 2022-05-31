@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 
-from tkVideoPlayer import TkinterVideo
+from tkvideo import tkvideo
 
 
 class App(tk.Tk):
@@ -44,14 +44,16 @@ class App(tk.Tk):
         self._play_video(self.filename, self.mog2_label, 1, 2)
 
     def _play_video(self, filename, label, row, column):
+        try:
+            label.destroy()
+        except AttributeError:
+            pass
+
         row *= 2
 
-        frame = tk.Frame(self, width=350, height=250)
-        frame.pack_propagate(0)
-        player = TkinterVideo(master=frame, scaled=True)
-        player.load(filename)
-        player.pack(expand=True, fill="both")
-        frame.grid(row=row, column=column)
+        label = tk.Label(self)
+        label.grid(row=row, column=column)
+        player = tkvideo(filename, label, loop=1, size=(350, 250))
         player.play()
 
 
