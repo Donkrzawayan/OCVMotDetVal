@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 
-from tkvideo import tkvideo
+from tkVideoPlayer import TkinterVideo
 
 
 class App(tk.Tk):
@@ -19,6 +19,12 @@ class App(tk.Tk):
                                        command=lambda: self._upload_action())
         self.upload_button.grid(row=0, column=2)
 
+        # create labels for videos
+        self.upload_label = tk.Label(self)
+        self.knn_label = tk.Label(self)
+        self.mog_label = tk.Label(self)
+        self.mog2_label = tk.Label(self)
+
     def _set_frame(self, text, row, column):
         row *= 2
         self.frame = tk.Frame(self, width=350, height=250, background='darkgrey')
@@ -32,16 +38,20 @@ class App(tk.Tk):
         if self.filename == '':
             return
 
-        try:
-            self.upload_label.grid_forget()
-        except AttributeError:
-            pass
+        self._play_video(self.filename, self.upload_label, 0, 0)
+        self._play_video(self.filename, self.knn_label, 1, 0)
+        self._play_video(self.filename, self.mog_label, 1, 1)
+        self._play_video(self.filename, self.mog2_label, 1, 2)
 
-        # create label
-        self.upload_label = tk.Label(self)
-        self.upload_label.grid(row=0, column=0)
-        # read video to display on label
-        player = tkvideo(self.filename, self.upload_label, loop=1, size=(350, 250))
+    def _play_video(self, filename, label, row, column):
+        row *= 2
+
+        frame = tk.Frame(self, width=350, height=250)
+        frame.pack_propagate(0)
+        player = TkinterVideo(master=frame, scaled=True)
+        player.load(filename)
+        player.pack(expand=True, fill="both")
+        frame.grid(row=row, column=column)
         player.play()
 
 
