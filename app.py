@@ -12,7 +12,7 @@ class App(tk.Tk):
 
         self.title('OCMotDetVal')
 
-        self.mog_file = "mog.avi"
+        self.mog_file = "mog.mp4"
         self.mog2_file = "mog2.mp4"
         self.knn_file = "knn.mp4"
 
