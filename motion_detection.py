@@ -7,7 +7,8 @@ class MotionDetector:
     def __init__(self, video_width = 300, video_height = 300):
         self.video_width = video_width
         self.video_height = video_height
-        self.detectors = {"MOG2":cv2.createBackgroundSubtractorMOG2(),
+        self.detectors = {"MOG":cv2.bgsegm.createBackgroundSubtractorMOG(),
+                          "MOG2":cv2.createBackgroundSubtractorMOG2(),
                           "KNN":cv2.createBackgroundSubtractorKNN(detectShadows=False)}
 
     def detect(self, input_file, output_file, detector="MOG2"):
